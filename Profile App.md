@@ -1,28 +1,51 @@
-Jetpack Compose Lesson: Creating a Profile Page
-This lesson guides students through building a profile card in Jetpack Compose. It introduces the core layout composables—Surface, Column, Box, and Row—along with images, buttons, modifiers, spacing, and previews.
-Learning objectives
-By the end of the exercise, students should be able to:
-- Create and preview a reusable @Composable function.
-- Use Surface and Card to create a profile panel.
-- Arrange content with Column, Row, and Box.
-- Display and clip an image with Image.
-- Use Modifier to control size, padding, shape, alignment, and click behavior.
-- Build a profile interface with Follow and Message buttons.
-1. Create the project
-1. Open Android Studio and select New Project.
-2. Choose Empty Activity.
-3. Name the project Profile.
-4. Make sure the project uses Jetpack Compose and Material 3.
-We will build a profile card for a fictional user called Jane Doe.
-2. Create the Profile composable and preview
-Start by creating a composable named Profile:
+Jetpack Compose Lab Exercise: Creating a Profile Page
+Overview
+
+In this practical activity, you will build a simple profile page using Jetpack Compose. The exercise introduces key Compose layout components, including Surface, Column, Row, and Box, as well as images, buttons, modifiers, and previews.
+
+By completing this lab, you will gain hands-on experience in creating modern Android user interfaces using the declarative UI approach of Jetpack Compose.
+
+Learning Objectives
+
+By the end of this lab, you will be able to:
+
+Create and preview reusable @Composable functions.
+Use Surface and Card to create visually structured UI components.
+Arrange content using Column, Row, and Box.
+Display and style images with Image.
+Apply Modifier to control layout, spacing, shape, and alignment.
+Create interactive buttons.
+Build a complete profile interface.
+Prerequisites
+
+Before starting:
+
+Install Android Studio (latest stable version).
+Ensure your project is configured to use:
+Jetpack Compose
+Material 3
+Have an image ready for the profile picture.
+Step 1: Create a New Project
+Open Android Studio.
+Select New Project.
+Choose Empty Activity.
+Name the project:
+Profile
+
+Ensure Jetpack Compose is enabled.
+Finish project creation.
+Step 2: Create the Profile Composable
+
+Open MainActivity.kt and create a reusable composable:
+
 @Composable
 fun Profile(modifier: Modifier = Modifier) {
-    // Profile UI will go here
+    // Profile UI will be added here
 }
 
 
-Add a preview underneath it:
+Add a preview function:
+
 @Preview(showBackground = true)
 @Composable
 fun ProfilePreview() {
@@ -31,10 +54,17 @@ fun ProfilePreview() {
     )
 }
 
+Why use Preview?
 
-The preview lets you inspect the UI in Android Studio without running the app. The optional modifier parameter also allows the caller to control how the profile is positioned.
-3. Create the card's outer surface
-Use Surface to provide a white background, rounded corners, and a shadow.
+The @Preview annotation allows you to:
+
+View your UI without running the application.
+Detect layout issues quickly.
+Speed up development.
+Step 3: Create the Outer Surface
+
+Replace the contents of Profile() with:
+
 Surface(
     modifier = modifier
         .fillMaxWidth()
@@ -43,35 +73,61 @@ Surface(
     shadowElevation = 8.dp,
     color = Color.White
 ) {
-    // Profile content goes here
+    // Content goes here
 }
 
+Understanding the Code
+Component	PurposefillMaxWidth()	Uses the available width
+padding(16.dp)	Adds spacing around the surface
+RoundedCornerShape(16.dp)	Creates rounded corners
+shadowElevation = 8.dp	Adds a shadow effect
+Color.White	Sets the background colour
+Step 4: Add a Column Layout
 
-What these parameters do:
-- fillMaxWidth() makes the surface occupy the available width.
-- padding(16.dp) adds space around the surface.
-- RoundedCornerShape(16.dp) rounds its corners.
-- shadowElevation = 8.dp creates a shadow that makes the surface look raised.
-- Color.White sets the background color.
-The surface is currently empty, so it will show only the white panel and its shadow.
-4. Arrange the content with a Column
-Inside Surface, add a Column:
+Inside the Surface, add:
+
 Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp)
 ) {
-    // Add profile components here
+    // Profile content here
 }
 
+What is a Column?
 
-A Column arranges its children vertically, from top to bottom. Alignment.CenterHorizontally centers the children horizontally, while the padding creates space between the surface's edges and its content.
-5. Add the profile image and Edit button
-We want the profile picture to be circular, with an Edit button overlapping its bottom-right corner. A Box allows composables to be layered on top of one another.
+A Column arranges items:
+
+Vertically
+From top to bottom
+
+Example:
+
+Item 1
+Item 2
+Item 3
+
+Step 5: Add a Profile Image
+
+Before continuing:
+
+✅ Add an image called:
+
+cat.png
+
+
+to:
+
+app/src/main/res/drawable
+
+
+Now add the following code inside the Column:
+
 Box(
     modifier = Modifier.size(116.dp)
 ) {
+
     Image(
         painter = painterResource(id = R.drawable.cat),
         contentDescription = "Profile picture",
@@ -84,7 +140,7 @@ Box(
 
     Card(
         onClick = {
-            // TODO: Add profile picture editing
+            // TODO
         },
         modifier = Modifier.align(Alignment.BottomEnd),
         border = BorderStroke(
@@ -103,32 +159,60 @@ Box(
     }
 }
 
+Important Concepts
+Box
 
-Before running this code, add an image named cat to the project's app/src/main/res/drawable folder. You can use your own image or the resource linked in the original exercise: Profile image resource.
-Important concepts:
-- Image displays the picture loaded by painterResource.
-- contentDescription provides an accessibility description for users of assistive technology.
-- CircleShape clips the picture into a circle.
-- ContentScale.Crop fills the image area while cropping any excess. This is useful for profile pictures.
-- Box lets the Edit button overlap the image.
-- Alignment.BottomEnd positions the Edit button at the bottom-right of the box.
-- Card(onClick = ...) makes the Edit card clickable, but the actual editing behavior still needs to be implemented.
-Experiment: modifier order
-Compare these two modifier chains:
+Box allows components to be layered on top of one another.
+
++----------------+
+|    Image       |
+|            Edit|
++----------------+
+
+CircleShape
+
+Creates a circular image:
+
+.clip(CircleShape)
+
+ContentScale.Crop
+
+Ensures that the image fills the available space while maintaining its proportions.
+
+Step 6: Understanding Modifier Order
+
+Compare:
+
 Modifier
     .padding(16.dp)
     .size(100.dp)
 
 
+with:
+
 Modifier
     .size(100.dp)
     .padding(16.dp)
 
+Key Point
 
-Modifier order matters because each modifier wraps or constrains the next one. In the first example, padding is applied outside the size modifier; in the second, the size is set first and padding is applied inside it. This changes the space available for the image, depending on the parent's constraints.
-6. Add the name, description, and action buttons
-Below the Box, add two Text composables and a Row containing the Follow and Message buttons.
-Spacer(modifier = Modifier.height(16.dp))
+Modifier order matters.
+
+Modifiers are applied sequentially and can change:
+
+Size
+Layout
+Available drawing space
+
+Experiment with both versions and observe the differences.
+
+Step 7: Add Profile Information
+
+Below the Box, add:
+
+Spacer(
+    modifier = Modifier.height(16.dp)
+)
 
 Text(
     text = "Jane Doe",
@@ -146,253 +230,79 @@ Text(
     modifier = Modifier.padding(vertical = 16.dp)
 )
 
+Result
+
+The page should now display:
+
+Profile picture
+Name
+Professional title
+Step 8: Add Action Buttons
+
+Add the following underneath the profile description:
+
 Row(
     horizontalArrangement = Arrangement.SpaceEvenly,
     modifier = Modifier.fillMaxWidth()
 ) {
-    Button(
-        onClick = {
-            // TODO: Add follow action
-        }
-    ) {
-        Text(text = "Follow")
-    }
 
     Button(
         onClick = {
-            // TODO: Add message action
+            // TODO
         }
     ) {
-        Text(text = "Message")
+        Text("Follow")
     }
-}
 
-
-Spacer creates a fixed amount of empty space. The Row places the buttons horizontally, and Arrangement.SpaceEvenly distributes the available horizontal space evenly around its children.
-The button callbacks are placeholders: the buttons respond to clicks, but they do not yet follow the user or send a message.
-7. Put everything together
-Here is the complete MainActivity.kt file. This version includes the profile composable, preview, and app entry point.
-Before running: add cat.png or another supported image file named cat to app/src/main/res/drawable. Change the package name to match your project.
-
-package com.example.profile
-
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.profile.ui.theme.ProfileTheme
-
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setContent {
-            ProfileTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize()
-                ) { innerPadding ->
-                    Profile(
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+    Button(
+        onClick = {
+            // TODO
         }
-    }
-}
-
-@Composable
-fun Profile(modifier: Modifier = Modifier) {
-    Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        shape = RoundedCornerShape(16.dp),
-        shadowElevation = 8.dp,
-        color = Color.White
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Box(
-                modifier = Modifier.size(116.dp)
-            ) {
-                Image(
-                    painter = painterResource(
-                        id = R.drawable.cat
-                    ),
-                    contentDescription = "Profile picture",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(100.dp)
-                        .clip(CircleShape)
-                )
-
-                Card(
-                    onClick = {
-                        // TODO: Add image editing
-                    },
-                    modifier = Modifier.align(
-                        Alignment.BottomEnd
-                    ),
-                    border = BorderStroke(
-                        1.dp,
-                        SolidColor(Color.Blue)
-                    )
-                ) {
-                    Text(
-                        text = "Edit",
-                        modifier = Modifier.padding(
-                            horizontal = 4.dp,
-                            vertical = 2.dp
-                        ),
-                        fontSize = 12.sp
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "Jane Doe",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 16.dp)
-            )
-
-            Text(
-                text = "Mobile Developer | Tech Enthusiast",
-                fontSize = 16.sp,
-                color = Color.Gray,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(vertical = 16.dp)
-            )
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Button(
-                    onClick = {
-                        // TODO: Add follow action
-                    }
-                ) {
-                    Text(text = "Follow")
-                }
-
-                Button(
-                    onClick = {
-                        // TODO: Add message action
-                    }
-                ) {
-                    Text(text = "Message")
-                }
-            }
-        }
+        Text("Message")
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun ProfilePreview() {
-    ProfileTheme {
-        Profile(
-            modifier = Modifier.padding(20.dp)
-        )
-    }
-}
+Understanding Row
+
+A Row places items horizontally.
+
+[ Follow ]     [ Message ]
 
 
+Arrangement.SpaceEvenly distributes the available space evenly.
 
-If your generated theme has a different name or package, update the ProfileTheme import to match your project. Android Studio can also add missing imports automatically.
-8. Understand the component hierarchy
-The UI is structured like this:
-Scaffold
-Provides the screen content area
-Profile — Surface
-White background, rounded corners and shadow
-Column
-Box
-Profile image + Edit card
+Step 9: Run the Application
 
-Text — Name
+Run the application on:
 
-Text — Description
+An Android emulator, or
+A physical Android device.
 
-Row — Follow and Message buttons
+You should see:
 
+✅ Circular profile picture
 
+✅ Edit badge
 
+✅ User name
 
+✅ Description
 
-This hierarchy illustrates a key Compose principle: small composables can be combined to build larger interfaces. Each layout has a specific role—Column arranges content vertically, Row arranges it horizontally, and Box layers content.
-9. Student exercises
-Try these extensions after the profile card works.
-Practice checklist
-0 of 5
+✅ Follow button
 
-[ ] Customize the profile
-Change the name, job description, and profile image.
+✅ Message button
 
+Challenge Activity: Make Follow Interactive
 
-[ ] Change the image shape
-Try RoundedCornerShape(16.dp) instead of CircleShape.
+Add state to your composable:
 
-
-[ ] Add a follower count
-Display a new Text composable showing the number of followers.
-
-
-[ ] Add interaction
-Use state to change the Follow button label to Following when clicked.
-
-
-[ ] Improve the design
-Add a divider, adjust spacing, or use MaterialTheme typography styles.
-
-
-
-Challenge: make Follow interactive
-The original example uses a placeholder callback. To make it interactive, introduce state:
 var isFollowing by remember {
     mutableStateOf(false)
 }
+
+
+Replace the Follow button with:
 
 Button(
     onClick = {
@@ -400,21 +310,116 @@ Button(
     }
 ) {
     Text(
-        text = if (isFollowing) {
+        text = if (isFollowing)
             "Following"
-        } else {
+        else
             "Follow"
-        }
     )
 }
 
+Required Imports
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
-Remember to import remember, mutableStateOf, getValue, and setValue. The state variable belongs inside a composable function, such as Profile. Because it is observable Compose state, clicking the button changes the label and triggers the necessary recomposition.
-Important distinction: this changes the button's local UI state only. A real social app would also need to store the follow relationship and synchronize it with the backend.
-Key takeaways
-- Surface creates a visual container; Card is useful for grouped content and clickable cards.
-- Column, Row, and Box are core layout building blocks.
-- Modifier controls layout, padding, size, shape, and alignment; modifier order matters.
-- Image displays visual resources, while contentDescription supports accessibility.
-- @Preview helps you iterate on UI without launching the app.
-- Observable state allows interactive UI elements to update when their state changes.
+Expected Behaviour
+Click	Button TextInitial State	Follow
+First Click	Following
+Second Click	Follow
+Component Hierarchy
+
+The application structure is:
+
+Scaffold
+└── Profile (Surface)
+    └── Column
+        ├── Box
+        │   ├── Image
+        │   └── Edit Card
+        ├── Text (Name)
+        ├── Text (Description)
+        └── Row
+            ├── Follow Button
+            └── Message Button
+
+Practical Exercises
+
+Complete the following tasks:
+
+Exercise 1: Personalise the Profile
+
+Change:
+
+Name
+Job title
+Profile image
+Exercise 2: Change the Image Shape
+
+Replace:
+
+CircleShape
+
+
+with:
+
+RoundedCornerShape(16.dp)
+
+
+Observe the difference.
+
+Exercise 3: Add a Follower Count
+
+Add a new Text component:
+
+Text(
+    text = "1,250 Followers"
+)
+
+
+Position it appropriately within the column.
+
+Exercise 4: Add More Information
+
+Add:
+
+Location
+Email
+Personal website
+
+using additional Text composables.
+
+Exercise 5: Improve the Design
+
+Try:
+
+Adding a divider.
+Changing colours.
+Using MaterialTheme.typography.
+Increasing spacing.
+Using icons.
+Reflection Questions
+What is the difference between Column, Row, and Box?
+Why is Modifier order important?
+What role does Surface play?
+Why should images have a contentDescription?
+What is recomposition in Jetpack Compose?
+Key Takeaways
+Surface creates visual containers with elevation and shape.
+Column, Row, and Box are the fundamental layout components in Compose.
+Modifier controls size, spacing, alignment, and appearance.
+Image displays drawable resources.
+@Preview accelerates UI development.
+State allows Compose UIs to become interactive.
+Small composables can be combined to create complex interfaces.
+Extension Activity
+
+Using the same techniques, create a Business Dashboard App containing:
+
+Revenue Card
+Expenses Card
+Profit Card
+Monthly Statistics
+Action Buttons
+
+Apply the same Compose building blocks (Surface, Column, Row, and Box) used in this profile page exercise.
