@@ -1,5 +1,4 @@
 List Demo App
-Of course, our app users won't be running our apps in Android Studio and will expect to see their shopping list neatly formatted in the Android UI on their device screen. Fortunately, Jetpack makes this very straightforward.
 
 Delete the Greeting function definition and GreetingPreview. Inside setContent, the template already has a Scaffold(...) { innerPadding -> ... }; keep that Scaffold and replace only the Greeting(...) call inside it with the ShoppingList(...) call below (that's where innerPadding comes from).
 In the onCreate function, add this code to declare and initialize our List in the usual way. Place this line of code before the call to the setContent function.
