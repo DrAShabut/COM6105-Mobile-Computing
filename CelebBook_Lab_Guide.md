@@ -63,6 +63,7 @@ com.example.celebbook
 # Activity 1: Create the Data Model
 
 Create `Contact.kt`
+
 In Android Studio, right-click the com.example.celebbook package, select New → Kotlin Class/File, enter Contact, click Create, and add the following code:
 
 ```kotlin
@@ -82,6 +83,7 @@ data class Contact(
 # Activity 2: Create the ViewModel
 
 Create `ContactViewModel.kt`
+
 Follow the same steps above to add the `ContactViewModel.kt`
 
 ```kotlin
