@@ -82,6 +82,7 @@ data class Contact(
 # Activity 2: Create the ViewModel
 
 Create `ContactViewModel.kt`
+Follow the same steps above to add the `ContactViewModel.kt`
 
 ```kotlin
 import androidx.compose.runtime.mutableStateListOf
